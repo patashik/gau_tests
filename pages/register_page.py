@@ -1,5 +1,4 @@
 from .base_page import BasePage
-from .main_page import MainPage
 from .locators import RegisterPageLocators
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys

@@ -2,7 +2,6 @@ import pytest
 import time
 import os
 from .pages.base_page import BasePage
-#from .pages.main_page import MainPage
 from .pages.register_page import RegisterPage
 from .pages.visually_impaired_page import VisuallyImpairedPage
 from .pages.appeal_page import AppealPage

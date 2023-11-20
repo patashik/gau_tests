@@ -20,12 +20,6 @@ class BasePageLocators():
     SEARCH_STRING = (By.XPATH, "//*[@id='story']")
     VIS_MODE_BUTTON = (By.XPATH, "/html/body/div[2]/div/div[3]/p/a")
 
-class MainPageLocators():
-    LANGUAGE_BAR = (By.XPATH, "/html/body/iframe") 
-    LANGUAGE_BUTTON = (By.XPATH, "/html/body/div[2]/div/div[1]/div[1]")
-    SEARCH_BAR_INPUT = (By.XPATH, "//*[@id='searchinput']")
-    SEARCH_RESULT_MESSAGE = (By.XPATH, "//*[@id='dle-content']/table[1]/tbody/tr/td/div[2]/span")
-    
 class VisuallyImpairedPageLocators():
     VIS_MODE_BUTTON = (By.XPATH, "/html/body/div[2]/div/div[3]/p/a")
     NORMAL_MODE_BUTTON = (By.XPATH, "//*[@id='header']/p/a")
