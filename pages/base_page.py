@@ -46,12 +46,28 @@ class BasePage():
     
     def go_to_appeal_page(self):
         letter_url = "http://appeal.academy21.ru/"
-        letter_button = self.is_clickable(*BasePageLocators.LETTER_BUTTON)
+        letter_button = self.is_clickable(*BasePageLocators.APPEAL_BUTTON)
         letter_button.click()
         self.url_changed()
         self.should_be_correct_response_status_code()
         assert self.url_contains(letter_url), "Did not open Appeal page"
 
+    def go_to_search(self):
+        search_button = self.is_clickable(*BasePageLocators.SEARCH_BUTTON)
+        search_button.click()
+        search_string = self.is_clickable(*BasePageLocators.SEARCH_BAR_INPUT)
+        assert search_string, 'Did not go to search'
+    
+    def go_to_user_profile(self, name):
+        profile_button = self.is_clickable(*BasePageLocators.PROFILE_BUTTON)
+        profile_button.click()
+        profile_menu = self.is_visible(*BasePageLocators.PROFILE_MENU)
+        my_profile_button = self.is_clickable(*BasePageLocators.MY_PROFILE_BUTTON)
+        my_profile_button.click()
+        self.url_changed()
+        self.should_be_correct_response_status_code()
+        assert self.url_contains(f"user/{name}"), "Did not open user profile"
+    
     def has_disappeared(self, how, what, timeout=10):
         try:
             WebDriverWait(self.browser, timeout, 1, TimeoutException).until_not(EC.presence_of_element_located((how, what)))
@@ -66,6 +82,37 @@ class BasePage():
     def is_visible(self, how, what, timeout=100):
         element = WebDriverWait(self.browser, timeout, 1).until(EC.visibility_of_element_located((how, what)))
         return element
+    
+    def log_in(self, name, password):
+        login_button = self.is_clickable(*BasePageLocators.LOGIN_BUTTON)
+        login_button.click()
+        login_name = self.is_clickable(*BasePageLocators.LOGIN_NAME)
+        login_name.send_keys(name)
+        login_password = self.is_clickable(*BasePageLocators.LOGIN_PASSWORD)
+        login_password.send_keys(password)
+        login_submit_button = self.is_clickable(*BasePageLocators.LOGIN_SUBMIT_BUTTON)
+        login_submit_button.click()
+        profile_button = self.is_clickable(*BasePageLocators.PROFILE_BUTTON)
+        logout_button = self.is_clickable(*BasePageLocators.LOGOUT_BUTTON)
+        assert profile_button and logout_button, 'Login unsuccessful'
+
+    def log_out(self):
+        logout_button = self.is_clickable(*BasePageLocators.LOGOUT_BUTTON)
+        logout_button.click()
+        login_button = self.is_clickable(*BasePageLocators.LOGIN_BUTTON)
+        register_button = self.is_clickable(*BasePageLocators.REGISTER_BUTTON)
+        assert login_button and register_button, 'Logout unsuccessful'
+    
+    def should_be_results_message(self):
+        text = "По Вашему запросу найдено"
+        search_result_message = self.is_visible(*BasePageLocators.SEARCH_RESULT_MESSAGE)
+        print(search_result_message.text)
+        assert text in search_result_message.text, "Search did not start"
+    
+    def should_be_search_request_in_search_string(self, search_request):
+        search_string = self.is_visible(*BasePageLocators.SEARCH_BAR_INPUT)
+        search_input = search_string.get_attribute("value")
+        assert search_request == search_input, "Search string does not match initial search request"
     
     def start_search_by_button(self, search_request):
         search_string = self.is_clickable(*BasePageLocators.SEARCH_STRING)
