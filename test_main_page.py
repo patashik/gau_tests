@@ -1,7 +1,8 @@
 import pytest
 import time
 import os
-from .pages.main_page import MainPage
+from .pages.base_page import BasePage
+#from .pages.main_page import MainPage
 from .pages.register_page import RegisterPage
 from .pages.visually_impaired_page import VisuallyImpairedPage
 from .pages.appeal_page import AppealPage
@@ -21,7 +22,7 @@ class TestHappyPathChrome():
         search_request = "ректор"
         link = "http://academy21.ru/" 
         with allure.step("Step 1: open main page"):
-            main_page = MainPage(browser_chrome, link)
+            main_page = BasePage(browser_chrome, link)
             main_page.open()
             main_page.should_be_correct_response_status_code()
         with allure.step("Step 2: insert text in string and activate search"):
@@ -38,7 +39,7 @@ class TestHappyPathChrome():
         search_request = "ректор"
         link = "http://academy21.ru/" 
         with allure.step("Step 1: open main page"):
-            main_page = MainPage(browser_chrome, link)
+            main_page = BasePage(browser_chrome, link)
             main_page.open()
             main_page.should_be_correct_response_status_code()
         with allure.step("Step 2: insert text in string and activate search"):
@@ -55,7 +56,7 @@ class TestHappyPathChrome():
         search_request = "ректор"
         link = "http://academy21.ru/" 
         with allure.step("Step 1: open main page"):
-            main_page = MainPage(browser_chrome, link)
+            main_page = BasePage(browser_chrome, link)
             main_page.open()
             main_page.should_be_correct_response_status_code()
         with allure.step("Step 2: switch to visually impaired mode"):
@@ -76,7 +77,7 @@ class TestHappyPathChrome():
         search_request = "ректор"
         link = "http://academy21.ru/" 
         with allure.step("Step 1: open main page"):
-            main_page = MainPage(browser_chrome, link)
+            main_page = BasePage(browser_chrome, link)
             main_page.open()
             main_page.should_be_correct_response_status_code()
         with allure.step("Step 2: switch to visually impaired mode"):
@@ -97,7 +98,7 @@ class TestHappyPathChrome():
         search_request = "ректор"
         link = "http://academy21.ru/" 
         with allure.step("Step 1: open main page"):
-            main_page = MainPage(browser_chrome, link)
+            main_page = BasePage(browser_chrome, link)
             main_page.open()
             main_page.should_be_correct_response_status_code()
         with allure.step("Step 2: switch to visually impaired mode"):
@@ -122,7 +123,7 @@ class TestHappyPathChrome():
         search_request = "ректор"
         link = "http://academy21.ru/" 
         with allure.step("Step 1: open main page"):
-            main_page = MainPage(browser_chrome, link)
+            main_page = BasePage(browser_chrome, link)
             main_page.open()
             main_page.should_be_correct_response_status_code()
         with allure.step("Step 2: change language"):
@@ -141,7 +142,7 @@ class TestHappyPathChrome():
         search_request = "ректор"
         link = "http://academy21.ru/" 
         with allure.step("Step 1: open main page"):
-            main_page = MainPage(browser_chrome, link)
+            main_page = BasePage(browser_chrome, link)
             main_page.open()
             main_page.should_be_correct_response_status_code()
         with allure.step("Step 2: change language"):
@@ -161,7 +162,7 @@ class TestHappyPathChrome():
         email = "test"
         password = "test"
         with allure.step("Step 1: open main page"):
-            main_page = MainPage(browser_chrome, link)
+            main_page = BasePage(browser_chrome, link)
             main_page.open()
             main_page.should_be_correct_response_status_code()
         with allure.step("Step 2: go to register page"):
@@ -181,7 +182,7 @@ class TestHappyPathChrome():
         current_dir = os.path.abspath(os.path.dirname(__file__))
         file_path = os.path.join(current_dir, 'test_data', 'test_image.jpg')
         with allure.step("Step 1: open main page"):
-            main_page = MainPage(browser_chrome, link)
+            main_page = BasePage(browser_chrome, link)
             main_page.open()
             main_page.should_be_correct_response_status_code()
         with allure.step("Step 2: go to Appeal page"):
@@ -189,3 +190,22 @@ class TestHappyPathChrome():
             appeal_page = AppealPage(browser_chrome, browser_chrome.current_url)
         with allure.step("Step 3: create new appeal"):
             appeal_page.create_new_appeal(input, phone, file_path)
+
+    @pytest.mark.login
+    @allure.story("User login")
+    @allure.sub_suite("User login")
+    @allure.title("Log in, go to profile, log out")
+    def test_login_go_to_profile_logout(self, browser_chrome):
+        link = "http://academy21.ru/" 
+        name = "test"
+        password = "test"
+        with allure.step("Step 1: open main page"):
+            main_page = BasePage(browser_chrome, link)
+            main_page.open()
+            main_page.should_be_correct_response_status_code()
+        with allure.step("Step 2: log in"):
+            main_page.log_in(name, password)
+        with allure.step("Step 3: go to user profile"):
+            main_page.go_to_user_profile(name)
+        with allure.step("Step 4: log out"):
+            main_page.log_out()

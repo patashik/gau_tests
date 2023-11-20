@@ -1,12 +1,22 @@
 from selenium.webdriver.common.by import By
 
 class BasePageLocators():
+    APPEAL_BUTTON = (By.XPATH, '//*[@id="messrek"]')
     LANGUAGE_BAR = (By.XPATH, "/html/body/iframe") 
     LANGUAGE_BUTTON = (By.XPATH, "/html/body/div[2]/div/div[1]/div[1]")
-    LETTER_BUTTON = (By.XPATH, '//*[@id="messrek"]')
+    LOGIN_BUTTON = (By.XPATH, '/html/body/div[2]/div/div[1]/div[2]/table/tbody/tr/td[1]/a')
+    LOGIN_NAME = (By.XPATH, '//*[@id="login_name"]')
+    LOGIN_PASSWORD = (By.XPATH, '//*[@id="login_password"]')
+    LOGIN_SUBMIT_BUTTON = (By.XPATH, '//*[@id="border"]/form/div/div[3]/button')
+    LOGOUT_BUTTON = (By.XPATH, '/html/body/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/a')
+    MY_PROFILE_BUTTON = (By.XPATH, '//*[@id="border"]/div/a[1]')
     NORMAL_MODE_BUTTON = (By.XPATH, "//*[@id='header']/p/a")
+    PROFILE_BUTTON = (By.XPATH, '/html/body/div[2]/div/div[1]/div[2]/table/tbody/tr/td[1]/a')
+    PROFILE_MENU = (By.XPATH, '//*[@id="login_form"]')
     REGISTER_BUTTON = (By.XPATH, "/html/body/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/a")
     SEARCH_BUTTON = (By.XPATH, "/html/body/div[2]/div/div[3]/div/form/div/input[4]")
+    SEARCH_BAR_INPUT = (By.XPATH, "//*[@id='searchinput']")
+    SEARCH_RESULT_MESSAGE = (By.XPATH, "//*[@id='dle-content']/table[1]/tbody/tr/td/div[2]/span")
     SEARCH_STRING = (By.XPATH, "//*[@id='story']")
     VIS_MODE_BUTTON = (By.XPATH, "/html/body/div[2]/div/div[3]/p/a")
 
