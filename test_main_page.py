@@ -51,8 +51,9 @@ class TestHappyPathChrome():
         with allure.step("Step 3: go to user profile"):
             main_page.go_to_user_profile(name)
         with allure.step("Step 4: log out"):
-            main_page.log_out()@pytest.mark.search
-    
+            main_page.log_out()
+            
+    @pytest.mark.search
     @allure.story("Search")
     @allure.sub_suite("Search")
     @allure.title("Search by string and button")
