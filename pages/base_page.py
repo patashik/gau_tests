@@ -31,7 +31,7 @@ class BasePage():
         language_button.click()
         language_bar = self.is_visible(*BasePageLocators.LANGUAGE_BAR)
         self.browser.switch_to.frame(language_bar)
-        language_item = self.browser.find_element(By.XPATH, '//span[text()="'+language+'"]')
+        language_item = self.browser.find_element(By.XPATH, f'//span[text()="{language}"]')
         language_item.click()
         self.browser.implicitly_wait(5)
         self.should_be_correct_response_status_code()
