@@ -65,10 +65,10 @@ class TestHappyPathChrome():
             main_page.open()
             main_page.should_be_correct_response_status_code()
         with allure.step("Step 2: insert text in string and activate search"):
-            browser_chrome.implicitly_wait(5) 
             main_page.start_search_by_button(search_request)
         with allure.step("Step 3: list search results"):
             main_page.should_be_search_request_in_search_string(search_request)
+            main_page.should_be_results_message()
         
     @pytest.mark.search
     @allure.story("Search")
@@ -82,10 +82,10 @@ class TestHappyPathChrome():
             main_page.open()
             main_page.should_be_correct_response_status_code()
         with allure.step("Step 2: insert text in string and activate search"):
-            browser_chrome.implicitly_wait(5) 
             main_page.start_search_by_enter(search_request)
         with allure.step("Step 3: list search results"):
             main_page.should_be_search_request_in_search_string(search_request)
+            main_page.should_be_results_message()
 
     @pytest.mark.vis
     @allure.story("Search")
@@ -99,7 +99,6 @@ class TestHappyPathChrome():
             main_page.open()
             main_page.should_be_correct_response_status_code()
         with allure.step("Step 2: switch to visually impaired mode"):
-            browser_chrome.implicitly_wait(5)
             main_page.switch_to_visually_impaired_mode() 
         with allure.step("Step 3: insert text and activate search"):
             visually_impaired_page = VisuallyImpairedPage(browser_chrome, browser_chrome.current_url)
@@ -120,7 +119,6 @@ class TestHappyPathChrome():
             main_page.open()
             main_page.should_be_correct_response_status_code()
         with allure.step("Step 2: switch to visually impaired mode"):
-            browser_chrome.implicitly_wait(5)
             main_page.switch_to_visually_impaired_mode() 
         with allure.step("Step 3: insert text and activate search"):
             visually_impaired_page = VisuallyImpairedPage(browser_chrome, browser_chrome.current_url)
@@ -141,7 +139,6 @@ class TestHappyPathChrome():
             main_page.open()
             main_page.should_be_correct_response_status_code()
         with allure.step("Step 2: switch to visually impaired mode"):
-            browser_chrome.implicitly_wait(5)
             main_page.switch_to_visually_impaired_mode() 
         with allure.step("Step 3: insert text and activate search"):
             visually_impaired_page = VisuallyImpairedPage(browser_chrome, browser_chrome.current_url)
