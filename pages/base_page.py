@@ -58,6 +58,13 @@ class BasePage():
         search_string = self.is_clickable(*BasePageLocators.SEARCH_BAR_INPUT)
         assert search_string, 'Did not go to search'
     
+    def click_extended_search(self):
+        extended_search_button = self.is_clickable(*BasePageLocators.EXTENDED_SEARCH_BUTTON)
+        extended_search_button.click()
+        self.url_changed()
+        self.should_be_correct_response_status_code()
+        assert self.url_contains("search"), "Did not open Extended Search page"
+
     def go_to_user_profile(self, name):
         profile_button = self.is_clickable(*BasePageLocators.PROFILE_BUTTON)
         profile_button.click()
@@ -77,6 +84,10 @@ class BasePage():
     
     def is_clickable(self, how, what, timeout=10):
         element = WebDriverWait(self.browser, timeout, 1).until(EC.element_to_be_clickable((how, what)))
+        return element
+
+    def is_presented(self, how, what, timeout=10):
+        element = WebDriverWait(self.browser, timeout, 1).until(EC.presence_of_element_located((how, what)))
         return element
     
     def is_visible(self, how, what, timeout=100):
@@ -109,6 +120,9 @@ class BasePage():
         print(search_result_message.text)
         assert text in search_result_message.text, "Search did not start"
     
+    def should_be_results_message_edited(self):
+        assert self.is_visible(*BasePageLocators.SEARCH_RESULT_MESSAGE) or self.is_visible(*BasePageLocators.NO_SEARCH_RESULT_MESSAGE), "Search did not start"
+
     def should_be_search_request_in_search_string(self, search_request):
         search_string = self.is_visible(*BasePageLocators.SEARCH_BAR_INPUT)
         search_input = search_string.get_attribute("value")
