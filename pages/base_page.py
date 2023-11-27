@@ -135,10 +135,15 @@ class BasePage():
         print(search_result_message.text)
         assert text in search_result_message.text, "Search did not start"
     
+    def should_be_no_search_request_in_search_string(self):
+        search_string = self.is_visible(*BasePageLocators.SEARCH_BAR_INPUT)
+        search_input = search_string.get_attribute("value")
+        assert search_input == '', "Search string does not match initial search request"
+
     def should_be_search_request_in_search_string(self, search_request):
         search_string = self.is_visible(*BasePageLocators.SEARCH_BAR_INPUT)
         search_input = search_string.get_attribute("value")
-        assert search_request == search_input, "Search string does not match initial search request"
+        assert search_input == search_request, "Search string does not match initial search request"
     
     def start_search_by_button(self, search_request):
         search_string = self.is_clickable(*BasePageLocators.SEARCH_STRING)

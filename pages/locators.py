@@ -57,19 +57,20 @@ class RegisterPageLocators():
     SEND_BUTTON = (By.XPATH, '//*[@id="registration"]/table/tbody/tr[2]/td/table/tbody/tr[6]/td[2]/div/input')
 
 class ExtendedSearchPageLocators():
-    EXTENDED_SEARCH_FORM = (By.XPATH, '//*[@id="fullsearch"]/table')
-    WHERE = (By.XPATH, '//*[@id="titleonly"]')
+    CLEAR_BUTTON = (By.XPATH, '//*[@id="doclear"]')
     COMMENTS_RULE = (By.XPATH, '//*[@id="replyless"]')
     DATE = (By.XPATH, '//*[@id="searchdate"]')
+    EXTENDED_SEARCH_FORM = (By.XPATH, '//*[@id="fullsearch"]/table')
+    NO_RESULTS_MESSAGE = (By.XPATH, '/html/body/table/tbody/tr/td[2]/div/table/tbody/tr/td[2]')
     PERIOD = (By.XPATH, '//*[@id="beforeafter"]')
-    SORT_BY = (By.XPATH, '//*[@id="sortby"]')
-    SORT_ORDER = (By.XPATH, '//*[@id="resorder"]')
+    SECTION_LIST = (By.XPATH, '//*[@id="fullsearch"]/table/tbody/tr/td/div/table/tbody/tr[2]/td[2]/fieldset/div/div/select')
     SHOW_ARTICLES = (By.XPATH, '//*[@id="rb_showposts_0"]')
     SHOW_TITLES = (By.XPATH, '//*[@id="rb_showposts_1"]')
-    SECTION_LIST = (By.XPATH, '//*[@id="fullsearch"]/table/tbody/tr/td/div/table/tbody/tr[2]/td[2]/fieldset/div/div/select')
+    SORT_BY = (By.XPATH, '//*[@id="sortby"]')
+    SORT_ORDER = (By.XPATH, '//*[@id="resorder"]')
     START_SEARCH_BUTTON = (By.XPATH, '//*[@id="dosearch"]')
-    NO_RESULTS_MESSAGE = (By.XPATH, '/html/body/table/tbody/tr/td[2]/div/table/tbody/tr/td[2]')
-
+    WHERE = (By.XPATH, '//*[@id="titleonly"]')
+    
 class VisuallyImpairedPageLocators():
     VIS_MODE_BUTTON = (By.XPATH, '/html/body/div[2]/div/div[3]/p/a')
     NORMAL_MODE_BUTTON = (By.XPATH, '//*[@id="header"]/p/a')

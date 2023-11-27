@@ -8,6 +8,10 @@ import allpairspy
 from allpairspy import AllPairs
 
 class ExtendedSearchPage(BasePage):
+    def clear_search_request(self):
+        clear_button = self.is_clickable(*ExtendedSearchPageLocators.CLEAR_BUTTON)
+        clear_button.click()
+        
     def fill_all_pairs_form(self, where, comment, date, period, sortby, sort_order, section):
         where_item = self.is_clickable(By.XPATH, f'//*[@id="titleonly"]/option[{where}]')
         where_item.click()

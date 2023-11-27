@@ -238,7 +238,7 @@ class TestHappyPathChrome():
     @pytest.mark.extend
     @allure.story("Extended Search")
     @allure.sub_suite("Extended Search")
-    @allure.title("Extended Search by string and button")
+    @allure.title("Extended AllPairs Search by string and button")
     @pytest.mark.parametrize(["where", "comment", "date", "period", "sortby", "sort_order", "section"], [
         values for values in AllPairs([
             [1, 2],
@@ -250,7 +250,7 @@ class TestHappyPathChrome():
             [1, 2]
         ])
     ])
-    def test_search_by_string_and_button(self, browser_chrome, where, comment, date, period, sortby, sort_order, section):
+    def test_extended_search_all_pairs(self, browser_chrome, where, comment, date, period, sortby, sort_order, section):
         search_request = "ректор"
         link = "http://academy21.ru/" 
         with allure.step("Step 1: open main page"):
@@ -271,3 +271,29 @@ class TestHappyPathChrome():
         with allure.step("Step 5: check extended search combinations"):
             extended_search_page.start_extended_search(where, comment, date, period, sortby, sort_order, section)
             extended_search_page.should_be_any_of_messages()
+
+    @pytest.mark.clear
+    @allure.story("Extended Search")
+    @allure.sub_suite("Extended Search")
+    @allure.title("Clear search request")
+    def test_clear_extended_search_request(self, browser_chrome):
+        search_request = "ректор"
+        link = "http://academy21.ru/" 
+        with allure.step("Step 1: open main page"):
+            main_page = BasePage(browser_chrome, link)
+            main_page.open()
+            main_page.should_be_correct_response_status_code()
+        with allure.step("Step 2: insert text in string and activate search"):
+            main_page.start_search_by_button(search_request)
+        with allure.step("Step 3: list search results"):
+            main_page.should_be_search_request_in_search_string(search_request)
+            main_page.should_be_results_message()
+        with allure.step("Step 4: go to extended search"):
+            main_page.click_extended_search()
+            extended_search_page = ExtendedSearchPage(browser_chrome, browser_chrome.current_url)
+            extended_search_page.should_be_extended_search_form()
+            extended_search_page.should_be_search_request_in_search_string(search_request)
+            extended_search_page.should_be_results_message()
+        with allure.step("Step 5: clear search request"):
+            extended_search_page.clear_search_request()
+            extended_search_page.should_be_no_search_request_in_search_string()
