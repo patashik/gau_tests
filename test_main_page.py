@@ -5,9 +5,11 @@ from .pages.base_page import BasePage
 from .pages.register_page import RegisterPage
 from .pages.visually_impaired_page import VisuallyImpairedPage
 from .pages.appeal_page import AppealPage
+from .pages.extended_search_page import ExtendedSearchPage
 import allure
 import allpairspy
 from allpairspy import AllPairs
+from selenium.webdriver.common.by import By
 
 @pytest.mark.chrome
 @allure.epic("Chrome tests for Main page")
@@ -69,7 +71,7 @@ class TestHappyPathChrome():
         with allure.step("Step 3: list search results"):
             main_page.should_be_search_request_in_search_string(search_request)
             main_page.should_be_results_message()
-        
+
     @pytest.mark.search
     @allure.story("Search")
     @allure.sub_suite("Search")
@@ -232,3 +234,40 @@ class TestHappyPathChrome():
             appeal_page.should_be_correct_response_status_code()
         with allure.step("Step 2: create all combinations of appeal"):
             appeal_page.create_all_pairs_appeal(input, phone, file_path, addressee_item, type_item, topic_item, who_item)
+
+    @pytest.mark.extend
+    @allure.story("Extended Search")
+    @allure.sub_suite("Extended Search")
+    @allure.title("Extended Search by string and button")
+    @pytest.mark.parametrize(["where", "comment", "date", "period", "sortby", "sort_order", "section"], [
+        values for values in AllPairs([
+            [1, 2],
+            [1, 2],
+            [1, 2],
+            [1, 2],
+            [1, 2],
+            [1, 2], 
+            [1, 2]
+        ])
+    ])
+    def test_search_by_string_and_button(self, browser_chrome, where, comment, date, period, sortby, sort_order, section):
+        search_request = "ректор"
+        link = "http://academy21.ru/" 
+        with allure.step("Step 1: open main page"):
+            main_page = BasePage(browser_chrome, link)
+            main_page.open()
+            main_page.should_be_correct_response_status_code()
+        with allure.step("Step 2: insert text in string and activate search"):
+            main_page.start_search_by_button(search_request)
+        with allure.step("Step 3: list search results"):
+            main_page.should_be_search_request_in_search_string(search_request)
+            main_page.should_be_results_message()
+        with allure.step("Step 4: go to extended search"):
+            main_page.click_extended_search()
+            extended_search_page = ExtendedSearchPage(browser_chrome, browser_chrome.current_url)
+            extended_search_page.should_be_extended_search_form()
+            extended_search_page.should_be_search_request_in_search_string(search_request)
+            extended_search_page.should_be_results_message()
+        with allure.step("Step 5: check extended search combinations"):
+            extended_search_page.start_extended_search(where, comment, date, period, sortby, sort_order, section)
+            extended_search_page.should_be_any_of_messages()
