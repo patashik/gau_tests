@@ -9,6 +9,7 @@ from .pages.extended_search_page import ExtendedSearchPage
 import allure
 import allpairspy
 from allpairspy import AllPairs
+from selenium.webdriver.common.by import By
 
 @pytest.mark.chrome
 @allure.epic("Chrome tests for Main page")
@@ -69,7 +70,7 @@ class TestHappyPathChrome():
             main_page.start_search_by_button(search_request)
         with allure.step("Step 3: list search results"):
             main_page.should_be_search_request_in_search_string(search_request)
-            main_page.should_be_results_message_edited()
+            main_page.should_be_results_message()
 
     @pytest.mark.search
     @allure.story("Search")
@@ -240,13 +241,13 @@ class TestHappyPathChrome():
     @allure.title("Extended Search by string and button")
     @pytest.mark.parametrize(["where", "comment", "date", "period", "sortby", "sort_order", "section"], [
         values for values in AllPairs([
-            [1],
-            [1],
-            [1],
-            [2],
-            [2],
-            [2], 
-            [1]
+            [1, 2],
+            [1, 2],
+            [1, 2],
+            [1, 2],
+            [1, 2],
+            [1, 2], 
+            [1, 2]
         ])
     ])
     def test_search_by_string_and_button(self, browser_chrome, where, comment, date, period, sortby, sort_order, section):
@@ -269,4 +270,4 @@ class TestHappyPathChrome():
             extended_search_page.should_be_results_message()
         with allure.step("Step 5: check extended search combinations"):
             extended_search_page.start_extended_search(where, comment, date, period, sortby, sort_order, section)
-            extended_search_page.should_be_results_message_edited()
+            extended_search_page.should_be_any_of_messages()

@@ -26,6 +26,18 @@ class BasePage():
             return False
         return True
 
+    def any_of(self, how1, what1, how2, what2, timeout=10):
+        try:
+            WebDriverWait(self.browser, timeout, 1, TimeoutException).until(
+                EC.any_of(
+                    EC.presence_of_element_located((how1, what1)),
+                    EC.presence_of_element_located((how2, what2)),
+                )
+            )
+        except TimeoutException:
+            return False
+        return True
+
     def change_language(self, language):
         language_button = self.is_clickable(*BasePageLocators.LANGUAGE_BUTTON)
         language_button.click()
@@ -36,6 +48,21 @@ class BasePage():
         self.browser.implicitly_wait(5)
         self.should_be_correct_response_status_code()
 
+    def click_extended_search(self):
+        extended_search_button = self.is_clickable(*BasePageLocators.EXTENDED_SEARCH_BUTTON)
+        extended_search_button.click()
+        self.url_changed()
+        self.should_be_correct_response_status_code()
+        assert self.url_contains("search"), "Did not open Extended Search page"
+        
+    def go_to_appeal_page(self):
+        letter_url = "http://appeal.academy21.ru/"
+        letter_button = self.is_clickable(*BasePageLocators.APPEAL_BUTTON)
+        letter_button.click()
+        self.url_changed()
+        self.should_be_correct_response_status_code()
+        assert self.url_contains(letter_url), "Did not open Appeal page"
+        
     def go_to_register_page(self):
         register_url = "http://academy21.ru/index.php?do=register"
         register_button = self.is_clickable(*BasePageLocators.REGISTER_BUTTON)
@@ -44,27 +71,12 @@ class BasePage():
         self.should_be_correct_response_status_code()
         assert self.url_contains(register_url), "Did not open Register page"
     
-    def go_to_appeal_page(self):
-        letter_url = "http://appeal.academy21.ru/"
-        letter_button = self.is_clickable(*BasePageLocators.APPEAL_BUTTON)
-        letter_button.click()
-        self.url_changed()
-        self.should_be_correct_response_status_code()
-        assert self.url_contains(letter_url), "Did not open Appeal page"
-
     def go_to_search(self):
         search_button = self.is_clickable(*BasePageLocators.SEARCH_BUTTON)
         search_button.click()
         search_string = self.is_clickable(*BasePageLocators.SEARCH_BAR_INPUT)
         assert search_string, 'Did not go to search'
     
-    def click_extended_search(self):
-        extended_search_button = self.is_clickable(*BasePageLocators.EXTENDED_SEARCH_BUTTON)
-        extended_search_button.click()
-        self.url_changed()
-        self.should_be_correct_response_status_code()
-        assert self.url_contains("search"), "Did not open Extended Search page"
-
     def go_to_user_profile(self, name):
         profile_button = self.is_clickable(*BasePageLocators.PROFILE_BUTTON)
         profile_button.click()
@@ -114,15 +126,15 @@ class BasePage():
         register_button = self.is_clickable(*BasePageLocators.REGISTER_BUTTON)
         assert login_button and register_button, 'Logout unsuccessful'
     
+    def should_be_any_of_messages(self):
+        assert self.any_of(*BasePageLocators.SEARCH_RESULT_MESSAGE, *BasePageLocators.NO_SEARCH_RESULT_MESSAGE)
+    
     def should_be_results_message(self):
         text = "По Вашему запросу найдено"
         search_result_message = self.is_visible(*BasePageLocators.SEARCH_RESULT_MESSAGE)
         print(search_result_message.text)
         assert text in search_result_message.text, "Search did not start"
     
-    def should_be_results_message_edited(self):
-        assert self.is_visible(*BasePageLocators.SEARCH_RESULT_MESSAGE) or self.is_visible(*BasePageLocators.NO_SEARCH_RESULT_MESSAGE), "Search did not start"
-
     def should_be_search_request_in_search_string(self, search_request):
         search_string = self.is_visible(*BasePageLocators.SEARCH_BAR_INPUT)
         search_input = search_string.get_attribute("value")
