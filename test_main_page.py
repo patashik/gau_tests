@@ -89,6 +89,26 @@ class TestHappyPathChrome():
             main_page.should_be_search_request_in_search_string(search_request)
             main_page.should_be_results_message()
 
+    @pytest.mark.search
+    @allure.story("Search")
+    @allure.sub_suite("Search")
+    @allure.title("Search by button and string")
+    def test_search_by_button_and_string(self, browser_chrome):
+        search_request = "ректор"
+        link = "http://academy21.ru/" 
+        with allure.step("Step 1: open main page"):
+            main_page = BasePage(browser_chrome, link)
+            main_page.open()
+            main_page.should_be_correct_response_status_code()
+        with allure.step("Step 2: click search button"):
+            main_page.go_to_search()
+            main_page.should_be_no_search_request_in_search_string()
+        with allure.step("Step 3: insert search request and start search"):
+            main_page.start_search_by_button(search_request)
+        with allure.step("Step 3: list search results"):
+            main_page.should_be_search_request_in_search_string(search_request)
+            main_page.should_be_results_message()
+    
     @pytest.mark.vis
     @allure.story("Search")
     @allure.sub_suite("Search")
@@ -130,9 +150,9 @@ class TestHappyPathChrome():
             visually_impaired_page.should_be_results_message()
     
     @pytest.mark.back
-    @allure.story("Search")
-    @allure.sub_suite("Search")
-    @allure.title("Search by button in visually impaired mode and switch normal mode")
+    @allure.story("Main menu buttons")
+    @allure.sub_suite("Main menu buttons")
+    @allure.title("Search by button in visually impaired mode and switch to normal mode")
     def test_search_by_button_for_visually_impaired_switch_normal(self, browser_chrome):
         search_request = "ректор"
         link = "http://academy21.ru/" 
@@ -275,7 +295,7 @@ class TestHappyPathChrome():
     @pytest.mark.clear
     @allure.story("Extended Search")
     @allure.sub_suite("Extended Search")
-    @allure.title("Clear search request")
+    @allure.title("Clear extended search request")
     def test_clear_extended_search_request(self, browser_chrome):
         search_request = "ректор"
         link = "http://academy21.ru/" 
@@ -297,3 +317,33 @@ class TestHappyPathChrome():
         with allure.step("Step 5: clear search request"):
             extended_search_page.clear_search_request()
             extended_search_page.should_be_no_search_request_in_search_string()
+
+    @pytest.mark.logo
+    @allure.story("Main menu buttons")
+    @allure.sub_suite("Main menu buttons")
+    @allure.title("Extended search and go back to main page")
+    @pytest.mark.parametrize(["where", "comment", "date", "period", "sortby", "sort_order", "section"], [
+        values for values in AllPairs([[1], [1], [1], [1], [1], [1], [1]])])
+    def test_extended_search_and_back_to_main(self, browser_chrome, where, comment, date, period, sortby, sort_order, section):
+        search_request = "ректор"
+        link = "http://academy21.ru/" 
+        with allure.step("Step 1: open main page"):
+            main_page = BasePage(browser_chrome, link)
+            main_page.open()
+            main_page.should_be_correct_response_status_code()
+        with allure.step("Step 2: insert text in string and activate search"):
+            main_page.start_search_by_button(search_request)
+        with allure.step("Step 3: list search results"):
+            main_page.should_be_search_request_in_search_string(search_request)
+            main_page.should_be_results_message()
+        with allure.step("Step 4: go to extended search"):
+            main_page.click_extended_search()
+            extended_search_page = ExtendedSearchPage(browser_chrome, browser_chrome.current_url)
+            extended_search_page.should_be_extended_search_form()
+            extended_search_page.should_be_search_request_in_search_string(search_request)
+            extended_search_page.should_be_results_message()
+        with allure.step("Step 5: check extended search combinations"):
+            extended_search_page.start_extended_search(where, comment, date, period, sortby, sort_order, section)
+            extended_search_page.should_be_any_of_messages()
+        with allure.step("Step 6: go back to main page"):
+            extended_search_page.go_to_main_page()

@@ -10,6 +10,7 @@ class BasePageLocators():
     LOGIN_PASSWORD = (By.XPATH, '//*[@id="login_password"]')
     LOGIN_SUBMIT_BUTTON = (By.XPATH, '//*[@id="border"]/form/div/div[3]/button')
     LOGOUT_BUTTON = (By.XPATH, '/html/body/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/a')
+    LOGO_BUTTON = (By.XPATH, '/html/body/div[2]/div/div[2]/a')
     MY_PROFILE_BUTTON = (By.XPATH, '//*[@id="border"]/div/a[1]')
     NO_SEARCH_RESULT_MESSAGE = (By.XPATH, '/html/body/table/tbody/tr/td[2]/div/table/tbody/tr/td[2]')
     NORMAL_MODE_BUTTON = (By.XPATH, '//*[@id="header"]/p/a')

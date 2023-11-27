@@ -54,7 +54,7 @@ class BasePage():
         self.url_changed()
         self.should_be_correct_response_status_code()
         assert self.url_contains("search"), "Did not open Extended Search page"
-        
+    
     def go_to_appeal_page(self):
         letter_url = "http://appeal.academy21.ru/"
         letter_button = self.is_clickable(*BasePageLocators.APPEAL_BUTTON)
@@ -63,6 +63,14 @@ class BasePage():
         self.should_be_correct_response_status_code()
         assert self.url_contains(letter_url), "Did not open Appeal page"
         
+    def go_to_main_page(self):
+        main_url = "http://academy21.ru/"
+        logo_button = self.is_clickable(*BasePageLocators.LOGO_BUTTON)
+        logo_button.click()
+        self.url_changed()
+        self.should_be_correct_response_status_code()
+        assert self.url_to_be(main_url), "Did not open Main page"
+    
     def go_to_register_page(self):
         register_url = "http://academy21.ru/index.php?do=register"
         register_button = self.is_clickable(*BasePageLocators.REGISTER_BUTTON)
@@ -138,7 +146,7 @@ class BasePage():
     def should_be_no_search_request_in_search_string(self):
         search_string = self.is_visible(*BasePageLocators.SEARCH_BAR_INPUT)
         search_input = search_string.get_attribute("value")
-        assert search_input == '', "Search string does not match initial search request"
+        assert search_input == '', "Search string is not empty"
 
     def should_be_search_request_in_search_string(self, search_request):
         search_string = self.is_visible(*BasePageLocators.SEARCH_BAR_INPUT)
