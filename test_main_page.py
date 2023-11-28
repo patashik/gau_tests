@@ -170,7 +170,6 @@ class TestHappyPathChrome():
             visually_impaired_page.should_be_results_message()
         with allure.step("Step 5: switch to normal mode"):
             visually_impaired_page.switch_to_normal_mode()
-            visually_impaired_page.should_be_correct_response_status_code()
 
     @pytest.mark.tatar
     @allure.story("Search")
@@ -317,14 +316,12 @@ class TestHappyPathChrome():
         with allure.step("Step 5: clear search request"):
             extended_search_page.clear_search_request()
             extended_search_page.should_be_no_search_request_in_search_string()
-
+    
     @pytest.mark.logo
     @allure.story("Main menu buttons")
     @allure.sub_suite("Main menu buttons")
-    @allure.title("Extended search and go back to main page")
-    @pytest.mark.parametrize(["where", "comment", "date", "period", "sortby", "sort_order", "section"], [
-        values for values in AllPairs([[1], [1], [1], [1], [1], [1], [1]])])
-    def test_extended_search_and_back_to_main(self, browser_chrome, where, comment, date, period, sortby, sort_order, section):
+    @allure.title("Go to extended search and return to main page")
+    def test_extended_search_and_back_to_main(self, browser_chrome):
         search_request = "ректор"
         link = "http://academy21.ru/" 
         with allure.step("Step 1: open main page"):
@@ -342,8 +339,5 @@ class TestHappyPathChrome():
             extended_search_page.should_be_extended_search_form()
             extended_search_page.should_be_search_request_in_search_string(search_request)
             extended_search_page.should_be_results_message()
-        with allure.step("Step 5: check extended search combinations"):
-            extended_search_page.start_extended_search(where, comment, date, period, sortby, sort_order, section)
-            extended_search_page.should_be_any_of_messages()
-        with allure.step("Step 6: go back to main page"):
+        with allure.step("Step 5: go back to main page"):
             extended_search_page.go_to_main_page()

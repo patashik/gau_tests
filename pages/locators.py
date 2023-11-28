@@ -62,6 +62,8 @@ class ExtendedSearchPageLocators():
     COMMENTS_RULE = (By.XPATH, '//*[@id="replyless"]')
     DATE = (By.XPATH, '//*[@id="searchdate"]')
     EXTENDED_SEARCH_FORM = (By.XPATH, '//*[@id="fullsearch"]/table')
+    NEWS_BLOCK = (By.XPATH, '//*[@id="dle-content"]/table[2]')
+    MORE_BLOCK = (By.XPATH, '//*[@id="dle-content"]/div[4]')
     NO_RESULTS_MESSAGE = (By.XPATH, '/html/body/table/tbody/tr/td[2]/div/table/tbody/tr/td[2]')
     PERIOD = (By.XPATH, '//*[@id="beforeafter"]')
     SECTION_LIST = (By.XPATH, '//*[@id="fullsearch"]/table/tbody/tr/td/div/table/tbody/tr[2]/td[2]/fieldset/div/div/select')
