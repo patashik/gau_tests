@@ -11,7 +11,11 @@ class ExtendedSearchPage(BasePage):
     def clear_search_request(self):
         clear_button = self.is_clickable(*ExtendedSearchPageLocators.CLEAR_BUTTON)
         clear_button.click()
-        
+
+    def click_start_search(self):
+        start_search_button = self.is_clickable(*ExtendedSearchPageLocators.START_SEARCH_BUTTON)
+        start_search_button.click()
+
     def fill_all_pairs_form(self, where, comment, date, period, sortby, sort_order, section):
         where_item = self.is_clickable(By.XPATH, f'//*[@id="titleonly"]/option[{where}]')
         where_item.click()
@@ -34,5 +38,29 @@ class ExtendedSearchPage(BasePage):
     
     def start_extended_search(self, where, comment, date, period, sortby, sort_order, section):
         self.fill_all_pairs_form(where, comment, date, period, sortby, sort_order, section)
-        start_search_button = self.is_clickable(*ExtendedSearchPageLocators.START_SEARCH_BUTTON)
-        start_search_button.click()
+        self.click_start_search()
+
+    def is_checked(self, style):
+        assert style.get_attribute("checked"), 'Style is not selected'
+    
+    def more_details_block_is_presented(self):
+        more_details_block = self.is_presented(*ExtendedSearchPageLocators.MORE_DETAILS_BLOCK)
+        assert more_details_block, 'News style not correct'
+    
+    def news_block_is_presented(self):
+        news_block = self.is_presented(*ExtendedSearchPageLocators.NEWS_BLOCK)
+        assert news_block, 'News style not correct'
+    
+    def show_articles_is_checked(self):
+        show_articles = self.is_clickable(*ExtendedSearchPageLocators.SHOW_ARTICLES)
+        self.is_checked(show_articles)
+    
+    def show_titles_is_checked(self):
+        show_titles = self.is_clickable(*ExtendedSearchPageLocators.SHOW_TITLES)
+        self.is_checked(show_titles)
+
+    def select_show_titles(self):
+        show_titles = self.is_clickable(*ExtendedSearchPageLocators.SHOW_TITLES)
+        show_titles.click()
+
+    

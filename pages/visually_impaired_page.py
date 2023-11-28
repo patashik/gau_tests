@@ -41,6 +41,7 @@ class VisuallyImpairedPage(BasePage):
     def switch_to_normal_mode(self):
         normal_mode_button = self.is_visible(*VisuallyImpairedPageLocators.NORMAL_MODE_BUTTON)
         normal_mode_button.click()
+        self.url_changed()
         self.should_be_correct_response_status_code()
         vis_mode_button = self.is_visible(*VisuallyImpairedPageLocators.VIS_MODE_BUTTON)
         assert vis_mode_button, "Did not switch back to normal mode"
