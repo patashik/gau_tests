@@ -152,8 +152,8 @@ class TestHappyPathChrome():
     @pytest.mark.back
     @allure.story("Main menu buttons")
     @allure.sub_suite("Main menu buttons")
-    @allure.title("Search by button in visually impaired mode and switch to normal mode")
-    def test_search_by_button_for_visually_impaired_switch_normal(self, browser_chrome):
+    @allure.title("Search by button in visually impaired mode and return to normal mode")
+    def test_search_by_button_for_visually_impaired_return_normal(self, browser_chrome):
         search_request = "ректор"
         link = "http://academy21.ru/" 
         with allure.step("Step 1: open main page"):
@@ -341,3 +341,59 @@ class TestHappyPathChrome():
             extended_search_page.should_be_results_message()
         with allure.step("Step 5: go back to main page"):
             extended_search_page.go_to_main_page()
+
+    @pytest.mark.list
+    @allure.story("Extended Search")
+    @allure.sub_suite("Extended Search")
+    @allure.title("List search results as articles")
+    def test_list_search_results_as_articles(self, browser_chrome):
+        search_request = "ректор"
+        link = "http://academy21.ru/" 
+        with allure.step("Step 1: open main page"):
+            main_page = BasePage(browser_chrome, link)
+            main_page.open()
+            main_page.should_be_correct_response_status_code()
+        with allure.step("Step 2: insert text in string and activate search"):
+            main_page.start_search_by_button(search_request)
+        with allure.step("Step 3: list search results"):
+            main_page.should_be_search_request_in_search_string(search_request)
+            main_page.should_be_results_message()
+        with allure.step("Step 4: go to extended search"):
+            main_page.click_extended_search()
+            extended_search_page = ExtendedSearchPage(browser_chrome, browser_chrome.current_url)
+            extended_search_page.should_be_extended_search_form()
+            extended_search_page.should_be_search_request_in_search_string(search_request)
+            extended_search_page.should_be_results_message()
+        with allure.step("Step 5: check default style (as articles) is selected"):
+            extended_search_page.show_articles_is_checked()
+        with allure.step("Step 6: check default style (as articles) is applied"):
+            extended_search_page.news_block_is_presented()
+    
+    @pytest.mark.list
+    @allure.story("Extended Search")
+    @allure.sub_suite("Extended Search")
+    @allure.title("List search results as titles")
+    def test_list_search_results_as_titles(self, browser_chrome):
+        search_request = "ректор"
+        link = "http://academy21.ru/" 
+        with allure.step("Step 1: open main page"):
+            main_page = BasePage(browser_chrome, link)
+            main_page.open()
+            main_page.should_be_correct_response_status_code()
+        with allure.step("Step 2: insert text in string and activate search"):
+            main_page.start_search_by_button(search_request)
+        with allure.step("Step 3: list search results"):
+            main_page.should_be_search_request_in_search_string(search_request)
+            main_page.should_be_results_message()
+        with allure.step("Step 4: go to extended search"):
+            main_page.click_extended_search()
+            extended_search_page = ExtendedSearchPage(browser_chrome, browser_chrome.current_url)
+            extended_search_page.should_be_extended_search_form()
+            extended_search_page.should_be_search_request_in_search_string(search_request)
+            extended_search_page.should_be_results_message()
+        with allure.step("Step 5: select style as titles"):
+            extended_search_page.select_show_titles()
+        with allure.step("Step 6: restart search"):
+            extended_search_page.click_start_search()
+        with allure.step("Step 6: check style is applied"):
+            extended_search_page.more_details_block_is_presented()
